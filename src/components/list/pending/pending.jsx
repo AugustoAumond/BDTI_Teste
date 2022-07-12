@@ -10,6 +10,7 @@ function Pending(){
     const [list, setList] = useState();
     const [check, setCheck] = useState();
     const [open, setOpen] = useState(false);
+    const [Identificator, setIdentificator] = useState();
     const [text, setText] = useState();
 
     const tasks = useSelector((state)=>state.list);
@@ -37,23 +38,22 @@ function Pending(){
     }
 
     // Abrir fechar o nome da tarefa, abrir input, fechar botão remover, editar e adicionar a lista (redux/localStorage);
-    function Edit (id, name, op){
+    function Edit (id, name){
         let newList = list;
-        let open = op;
-        open = !open;
+        setOpen(!open);
         if (open === true){
             setText(name);
+            setIdentificator(id);
             document.querySelector('#iedit').style.display = 'flex';
-            document.querySelector('#name').style.display = 'none';
+            document.querySelector('#task').style.display = 'none';
             document.querySelector('#remove').style.display = 'none';
         } else{
             newList[id].name = text === '' ? window.alert('Insira uma tarefa') : text ;
             dispatch(edit(list, newList));
             document.querySelector('#iedit').style.display = 'none';
-            document.querySelector('#name').style.display = 'flex';
+            document.querySelector('#task').style.display = 'flex';
             document.querySelector('#remove').style.display = 'flex';
         }
-        setOpen(open);
     }
     
     // Remover o item da lista baseado no id e reorganizar ids;
@@ -72,22 +72,31 @@ function Pending(){
                <h2 className="color" id="size">Tarefas Pendentes</h2> 
             </div>  
 
-            <ol className="color">
-                {ListPendenting(tasks) ? ListPendenting(tasks).map((e, index)=>(
-                    <li key={index}>
-                        <input id="check"  value={e.finished} onClick={(()=> ChangeCheck(e))} type="checkbox" checked={e.finished === true} />
+            <div id="task">
+                <ol className="color">
+                    {ListPendenting(tasks) ? ListPendenting(tasks).map((e, index)=>(
+                        <li key={index}>
+                            <input id="check"  value={e.finished} onClick={(()=> ChangeCheck(e))} type="checkbox" checked={e.finished === true} />
 
+                            {e.name}
+                            
+                            <div id="align">
+                                <button id="edit" className="color itemsbackground" onClick={(()=> Edit(e.id, e.name))}> Editar </button> 
+                                <button id="remove" onClick={(()=> Remove(e.id))} className="color itemsbackground"> Remover </button>
+                            </div>
 
-                        <input id={`iedit`}  value={text} onChange={((e)=> setText(e.currentTarget.value))}/>
-                        <div id="name">{e.name}</div>
-                        
-                        <div id="align">
-                            <button id="edit" className="color itemsbackground" onClick={(()=> Edit(e.id, e.name, open))}> Editar </button> 
-                            <button id="remove" onClick={(()=> Remove(e.id))} className="color itemsbackground"> Remover </button>
-                        </div>
-                    </li>
-                )) : <p> Nenhuma tarefa encontrada </p>}
-            </ol>      
+                            
+                        </li>
+                    )) : <p> Nenhuma tarefa encontrada </p>}
+                </ol> 
+            </div>   
+
+            <div id={`iedit`} >
+                <input  value={text} onChange={((e)=> setText(e.currentTarget.value))}/>
+                <button id="edit" className="color itemsbackground" onClick={(()=> Edit(Identificator, text))}> Editar </button> 
+            </div>  
+            
+
         </DivPending>
     )
 }
@@ -123,8 +132,9 @@ border: solid 1px #b3addf;
         justify-content: space-between;
         width: 94%;
         display: flex;
-        list-style: none;
         border-bottom: solid 1px linear-gradient(45deg,#a6c7f3,#b3addf);
+        list-style: none;
+        
     }
 
     #check {
@@ -138,15 +148,15 @@ border: solid 1px #b3addf;
 
     #iedit {
         display: none;
-    }
-
-    #name {
-        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 45px;
     }
 
     #task {
         display: flex;
     }
+
 
     #align {
         display: flex;
