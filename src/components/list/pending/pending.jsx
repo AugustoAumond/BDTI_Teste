@@ -42,16 +42,17 @@ function Pending(){
         setOpen(!open)
         if (open === true){
             setText(name);
-            document.querySelector(`#iedit${id}`).style.display = 'flex';
+            document.querySelector(`#iedit`).style.display = 'flex';
+            document.querySelector('#task').style.display = 'none';
             document.querySelector('#remove').style.display = 'none';
         } 
         if (open === false){
             newList[id].name = text === '' ? window.alert('Insira uma tarefa') : text ;
             dispatch(edit(list, newList));
-            document.querySelector(`#iedit${id}`).style.display = 'none';
+            document.querySelector('#task').style.display = 'flex';
+            document.querySelector(`#iedit`).style.display = 'none';
             document.querySelector('#remove').style.display = 'flex';
         }
-    setText('');
     }
     
     // Remover o item da lista baseado no id e reorganizar ids;
@@ -68,13 +69,19 @@ function Pending(){
         <DivPending className="itemsbackground">
             <div id="title">
                <h2 className="color" id="size">Tarefas Pendentes</h2> 
-            </div>            
+            </div>  
+
             <ol className="color">
                 {ListPendenting(tasks) ? ListPendenting(tasks).map((e, index)=>(
                     <li key={index}> 
                         <input id="check"  value={e.finished} onClick={(()=> ChangeCheck(e))} type="checkbox" checked={e.finished === true} />
-                        { open === false ? '' : e.name}
-                        <input id={`iedit${e.id}`} counter={e.id} value={text} onChange={((e)=> setText(e.currentTarget.value))}/>
+
+                        <div>
+                           <input id={`iedit`} counter={e.id} value={text} onChange={((e)=> setText(e.currentTarget.value))}/>
+                            <div id="task">{e.name}</div> 
+                        </div>
+                        
+
                         <div id="align">
                             <button id="edit" className="color itemsbackground" onClick={(()=> Edit(e.id, e.name))}> Editar </button> 
                             <button id="remove" onClick={(()=> Remove(e.id))} className="color itemsbackground"> Remover </button>
@@ -130,8 +137,12 @@ border: solid 1px #b3addf;
         cursor: pointer;
     }
 
-    #iedit${props=>props.counter} {
+    #iedit {
         display: none;
+    }
+
+    #task {
+        display: flex;
     }
 
     #align {
@@ -143,7 +154,6 @@ border: solid 1px #b3addf;
     button {
         font-size: 12px;
         width: 70px;
-
     }
 
     #remove {
@@ -176,4 +186,9 @@ border: solid 1px #b3addf;
             height: 18px;
         }
     }
+`
+
+const Input = styled.div`
+
+    
 `
