@@ -61,6 +61,8 @@ function Pending(){
         let newList = RemoveAction(id, list);
         if (newList.length === 0){
             newList[0] = {id: 0, name: 'Nenhuma tarefa pendente', finished: false};
+            document.querySelector('#align').style.display = 'none';
+            document.querySelector('#check').style.display = 'none';
         }
         dispatch(edit(list, newList));
         setList(newList);

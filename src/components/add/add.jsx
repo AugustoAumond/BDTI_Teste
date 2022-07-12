@@ -23,13 +23,15 @@ function Add (){
        } else {
         if (list[0].name === 'Nenhuma tarefa pendente'){
             obj.id = 0;
-            dispatch (edit(list, [obj]))
+            dispatch (edit(list, [obj]));
         } else {
             newList = list;
             newList.push(obj);
             dispatch (add(list, newList));
         }
        }    
+       document.querySelector('#align').style.display = 'flex';
+       document.querySelector('#check').style.display = 'flex';
         setTask('');
     }
 

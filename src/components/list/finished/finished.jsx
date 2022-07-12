@@ -25,7 +25,7 @@ function Finished(){
         let newList = tasks;
         newList.forEach(e =>{
           if (check.id === e.id){
-                newList[e.id].finished = !newList[e.id].finished
+                newList[e.id].finished = !newList[e.id].finished;
             }  
         })  
         dispatch(edit(tasks, newList)); 
@@ -102,6 +102,7 @@ border: solid 1px #b3addf;
     }
 
     #check {
+        cursor: pointer;
         position: relative;
         left: -13px;
         display: flex;
