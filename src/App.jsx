@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Header from './components/header/header';
 import Add from './components/add/add'
 import List from './components/list/list';
+//import Status from './components/status/status';
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <Header/>
       <List/>
       <Add/>
+      {/*<Status/>*/}
     </DivBody> 
   );
 }

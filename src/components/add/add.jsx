@@ -35,7 +35,7 @@ function Add (){
 
     return (
         <DivAdd className="basic">
-            <h3 className="color"> Adionar tarefa </h3>
+            <h2 className="color"> Adionar tarefa </h2>
             <div>
                <input className="color" type="text" value={task} onChange={((e) => setTask(e.currentTarget.value))} />  
                <button className="color itemsbackground" onClick={((e)=> AddRedux(task))}> Adicionar </button>

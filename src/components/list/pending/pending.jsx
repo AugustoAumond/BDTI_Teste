@@ -9,7 +9,7 @@ import { ListPendenting, RemoveAction } from "../list.action";
 function Pending(){
     const [list, setList] = useState();
     const [check, setCheck] = useState();
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const [Identificator, setIdentificator] = useState();
     const [text, setText] = useState();
 
