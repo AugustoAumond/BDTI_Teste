@@ -37,22 +37,23 @@ function Pending(){
     }
 
     // Abrir fechar o nome da tarefa, abrir input, fechar botão remover, editar e adicionar a lista (redux/localStorage);
-    function Edit (id, name){
+    function Edit (id, name, op){
         let newList = list;
-        setOpen(!open)
+        let open = op;
+        open = !open;
         if (open === true){
             setText(name);
-            document.querySelector(`#iedit`).style.display = 'flex';
-            document.querySelector('#task').style.display = 'none';
+            document.querySelector('#iedit').style.display = 'flex';
+            document.querySelector('#name').style.display = 'none';
             document.querySelector('#remove').style.display = 'none';
-        } 
-        if (open === false){
+        } else{
             newList[id].name = text === '' ? window.alert('Insira uma tarefa') : text ;
             dispatch(edit(list, newList));
-            document.querySelector('#task').style.display = 'flex';
-            document.querySelector(`#iedit`).style.display = 'none';
+            document.querySelector('#iedit').style.display = 'none';
+            document.querySelector('#name').style.display = 'flex';
             document.querySelector('#remove').style.display = 'flex';
         }
+        setOpen(open);
     }
     
     // Remover o item da lista baseado no id e reorganizar ids;
@@ -73,17 +74,15 @@ function Pending(){
 
             <ol className="color">
                 {ListPendenting(tasks) ? ListPendenting(tasks).map((e, index)=>(
-                    <li key={index}> 
+                    <li key={index}>
                         <input id="check"  value={e.finished} onClick={(()=> ChangeCheck(e))} type="checkbox" checked={e.finished === true} />
 
-                        <div>
-                           <input id={`iedit`} counter={e.id} value={text} onChange={((e)=> setText(e.currentTarget.value))}/>
-                            <div id="task">{e.name}</div> 
-                        </div>
-                        
 
+                        <input id={`iedit`}  value={text} onChange={((e)=> setText(e.currentTarget.value))}/>
+                        <div id="name">{e.name}</div>
+                        
                         <div id="align">
-                            <button id="edit" className="color itemsbackground" onClick={(()=> Edit(e.id, e.name))}> Editar </button> 
+                            <button id="edit" className="color itemsbackground" onClick={(()=> Edit(e.id, e.name, open))}> Editar </button> 
                             <button id="remove" onClick={(()=> Remove(e.id))} className="color itemsbackground"> Remover </button>
                         </div>
                     </li>
@@ -141,6 +140,10 @@ border: solid 1px #b3addf;
         display: none;
     }
 
+    #name {
+        display: flex;
+    }
+
     #task {
         display: flex;
     }
@@ -186,9 +189,4 @@ border: solid 1px #b3addf;
             height: 18px;
         }
     }
-`
-
-const Input = styled.div`
-
-    
 `
